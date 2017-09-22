@@ -1,0 +1,12 @@
+{
+  "name": "supermario",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "serve": "^6.1.0"
+  }, 
+  "scripts": {
+    "start": "serve ./public"
+  }
+}
