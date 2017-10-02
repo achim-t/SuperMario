@@ -5,6 +5,8 @@ import { createBackgroundLayer, createSpriteLayer } from './layers.js';
 import Entity from './Entity.js';
 import { createMario } from './entities.js';
 import Timer from './Timer.js';
+import { setupInput } from './input.js';
+
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
 
@@ -17,9 +19,11 @@ Promise.all([
         const compositor = new Compositor();
         compositor.layers.push(createBackgroundLayer(level.backgrounds, backgroundSprites));
 
-        const gravity = 30;
+        const input = setupInput(mario);
+        input.listenTo(window);
+
+        const gravity = 2000;
         mario.pos.set(64, 180);
-        mario.vel.set(200, -600);
 
         const spriteLayer = createSpriteLayer(mario);
         compositor.layers.push(spriteLayer);
@@ -28,12 +32,10 @@ Promise.all([
         timer.update = function update(deltaTime) {
 
             mario.update(deltaTime);
-            mario.vel.y += gravity;
+            compositor.draw(context);
+            mario.vel.y += gravity * deltaTime;
 
         };
-        timer.draw = function draw() {
-            compositor.draw(context);
-        }
 
         timer.start();
     });
