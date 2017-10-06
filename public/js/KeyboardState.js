@@ -1,7 +1,7 @@
 const PRESSED = 1;
 const RELEASED = 0;
 
-export default class KeyboardState {
+export default class Keyboard {
     constructor() {
         this.keyStates = new Map();
         this.keyMap = new Map();
@@ -12,9 +12,9 @@ export default class KeyboardState {
     }
 
     handleEvent(event) {
-        const { keyCode } = event;
+        const { code } = event;
 
-        if (!this.keyMap.has(keyCode)) {
+        if (!this.keyMap.has(code)) {
             return false;
         }
 
@@ -22,11 +22,11 @@ export default class KeyboardState {
 
         const keyState = event.type === 'keydown' ? PRESSED : RELEASED;
 
-        if (this.keyStates.get(keyCode) !== keyState) {
-            if (this.keyMap.has(keyCode)) {
-                this.keyMap.get(keyCode)(keyState, event);
+        if (this.keyStates.get(code) !== keyState) {
+            if (this.keyMap.has(code)) {
+                this.keyMap.get(code)(keyState, event);
             }
-            this.keyStates.set(keyCode, keyState);
+            this.keyStates.set(code, keyState);
         }
         return true;
     }

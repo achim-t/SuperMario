@@ -1,17 +1,23 @@
-import KeyboardState from './KeyboardState.js';
-
-const SPACE = 32;
+import Keyboard from './KeyboardState.js';
 
 export function setupInput(entity) {
-    const keyboardState = new KeyboardState();
+    const input = new Keyboard();
 
-    keyboardState.addMapping(SPACE, state => {
-        if (state) {
+    input.addMapping('Space', keyState => {
+        if (keyState) {
             entity.jump.start();
         } else {
             entity.jump.abort()
         }
     });
 
-    return keyboardState;
+    input.addMapping('ArrowRight', keyState => {
+        entity.go.dir = keyState;
+    });
+
+    input.addMapping('ArrowLeft', keyState => {
+        entity.go.dir = -keyState;
+    });
+
+    return input;
 }
